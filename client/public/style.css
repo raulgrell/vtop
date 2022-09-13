@@ -1,0 +1,36 @@
+html {
+  margin: 0;
+  width: 100%;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-shadow: 1px 1px 1px #FFF;
+}
+
+#app {
+  height: 100vh;
+  width: 100%;
+  z-index: 10;
+  position: relative;
+}
+
+#app .jsoneditor-container {
+  min-width: 100%;
+}
+
+h3 a {
+  border-bottom: none;
+}
+
+a {
+  border-bottom: 1px solid cornflowerblue;
+}
+
+table td {
+  padding: 0 0.5em;
+}

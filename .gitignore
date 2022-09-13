@@ -1,0 +1,17 @@
+# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git-
+node_modules
+
+# Assets
+media/
+data/
+*.sqlite
+
+# Build and dev
+lib/
+*.log
+
+# Nuxt
+node_modules
+.nuxt
+nuxt.d.ts
+.output

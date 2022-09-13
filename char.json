@@ -1,0 +1,156 @@
+{
+    "name": "Minnet",
+    "race": "Lizardfolk",
+    "alignment": "LN",
+    "size": "Medium",
+    "ability": {
+        "strength": 12,
+        "dexterity": 14,
+        "constitution": 13,
+        "intelligence": 18,
+        "wisdom": 12,
+        "charisma": 8
+    },
+    "base": {
+        "hitpoints": 124,
+        "armor": 32,
+        "touch": 27,
+        "defense": 38
+    },
+    "saves": {
+        "fortitude": 12,
+        "reflex": 14,
+        "will": 18
+    },
+    "rolls": {
+        "initiative": 2,
+        "attack": 13,
+        "meelee": 12,
+        "ranged": 16,
+        "manouver": 12,
+        "caster": 16
+    },
+    "effects": [
+        {
+            "type": "feat",
+            "name": "Improved Initiative",
+            "prop": "rolls[].initiative",
+            "modifier": 2
+        }
+    ],
+    "actions": [
+        {
+            "type": "combat",
+            "name": "Unarmed Strike",
+            "effects": [
+                {
+                    "type": "attack",
+                    "effect": {
+                        "roll": "1d20 + :combat.melee"
+                    }
+                },
+                {
+                    "type": "damage",
+                    "effect": {
+                        "roll": "1d6 + :ability.melee"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "weapon",
+            "name": "Staff",
+            "effects": [
+                {
+                    "type": "attack"
+                },
+                {
+                    "type": "damage"
+                }
+            ]
+        },
+        {
+            "type": "weapon",
+            "name": "Staff Curse Touch",
+            "effects": [
+                {
+                    "type": "touch"
+                },
+                {
+                    "type": "condition"
+                }
+            ]
+        },
+        {
+            "type": "weapon",
+            "name": "Flaming Greatsword",
+            "effects": [
+                {
+                    "type": "attack",
+                    "name": "Attack",
+                    "effect": {
+                        "roll": "1d20 + 17",
+                        "target": ":combat.armor"
+                    }
+                },
+                {
+                    "type": "damage",
+                    "name": "Damage",
+                    "effect": {
+                        "roll": "1d10+4",
+                        "target": ":combat.armor"
+                    }
+                },
+                {
+                    "type": "damage",
+                    "name": "Fire Damage",
+                    "effect": {
+                        "roll": "d6"
+                    }
+                },
+                {
+                    "type": "condition",
+                    "name" : "Burning",
+                    "effect": {
+                        "dc": 15,
+                        "roll": "reflex",
+                        "pass": "Burning negated",
+                        "fail": "Target starts burning for 1d4 rounds"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "spell",
+            "name": "Fireball",
+            "effects": [
+                {
+                    "type": "damage",
+                    "name": "Damage",
+                    "effect": {
+                        "roll": "6d6+6"
+                    }
+                },
+                {
+                    "type": "targetRoll",
+                    "effect": {
+                        "dc": 15,
+                        "save": "reflex",
+                        "pass": "Take full damage",
+                        "fail": "Take half damage"
+                    }
+                }
+            ]
+        }
+    ],
+    "skills": [
+        {
+            "name": "Fly",
+            "bonus": 12
+        }
+    ],
+    "meta": {
+        "image": "http://i.imgur.com/chPIyvw.png",
+        "texture": "tile20"
+    }
+}

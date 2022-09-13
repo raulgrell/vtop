@@ -1,0 +1,213 @@
+<div class='character'>
+  <section v-if="c.bonuses && !c.options.hideBonuses" id='bonuses'>
+    <p>Temporary Bonuses</p>
+    <ul class='bonuses'>
+      <li v-for='bonus in c.bonuses'>
+        <input v-model='bonus.active' id='bonus-{{$index}}' type='checkbox' />
+        <label for='bonus-{{$index}}'><span ng-bind='bonus.name'></span></label>
+      </li>
+    </ul>
+  </section>
+  <section id='header'>
+    <div v-if='c.options.portrait' class='portrait push-right col-5-12 hide-on-mobile'>
+      <img :src='c.options.portrait'>
+    </div>
+    <h1>{{c.name}}</h1>
+    <hr>
+  </section>
+  <section id='info'>
+    <p>XP <md md='c.xp' pf='c.pf'></md>
+    </p>
+    <p>
+      <md v-if="!c.options.hideInfo1" md='c.infoText[0]' pf='c.pf'></md>
+    </p>
+    <p>
+      <md md='c.infoText[1]' pf='c.pf'></md>
+    </p>
+    <p> Initiative <roll>{{c.initiative.getRoll()}}</roll>; <span v-if='c.senses'> Senses <md md='c.senses' pf='c.pf'>
+        </md>; </span> Perception <roll>{{c.skills.get('perception').getRoll()}}</roll>
+    </p>
+    <p v-if='c.aura'> Aura <md md='c.aura' pf='c.pf'></md>
+    </p>
+    <hr>
+  </section>
+  <section id='defense'>
+    <p>
+      AC {{c.ac.getTotal()}},
+      touch {{c.ac.getTouch()}},
+      flat-footed {{c.ac.getFlatFooted()}}
+      <span v-if="c.ac.toString()">({{c.ac.toString()}})</span>
+    </p>
+    <p>
+      CMD {{c.cmd.getTotal()}},
+      flat-footed {{c.cmd.getFlatFooted()}}
+      <span v-if="c.cmd.toString()">({{c.cmd.toString()}})</span>
+    </p>
+    <p>
+      <span class="semi-colon">
+        HP
+        <span>{{c.hp()}}</span>
+        <span>({{c.hd()}})</span>
+      </span>
+      <span v-if='c.hpSpecial'>{{c.hpSpecial}}</span>
+    </p>
+    <p>
+      Fortitude <span>
+        <roll ng-bind='c.saves.fortitude.getRoll()'></roll>
+      </span>
+      Reflex <span>
+        <roll ng-bind='c.saves.reflex.getRoll()'></roll>
+      </span>
+      Will <span>
+        <roll ng-bind='c.saves.will.getRoll()'></roll>
+      </span>
+      <md md='c.saves.special' pf='c.pf'></md>
+    </p>
+    <p>
+      <span v-if='c.dr'>DR
+        <md md='c.dr' pf="c.pf"></md>
+      </span>
+      <span v-if='c.immune'>Immune
+        <md md='c.immune' pf="c.pf"></md>
+      </span>
+      <span v-if='c.resist'>Resist
+        <md md='c.resist' pf="c.pf"></md>
+      </span>
+      <span v-if='c.sr'>SR
+        <md md='c.sr'></md>
+      </span>
+    </p>
+    <p v-if='c.defensive'>
+      Defensive Abilities
+      <md md='c.defensive' pf='c.pf'></md>
+    </p>
+    <p v-if='c.weaknesses'>
+      Weaknesses
+      <md md='c.weaknesses' pf='c.pf'></md>
+    </p>
+    <hr>
+  </section>
+  <section id='offense'>
+    <p v-if='c.meleeAttacks'>
+      Melee
+      <span class='comma' v-for='attack in c.meleeAttacks'>
+        <span>{{attack.name}}</span>
+        <span v-if="attack.isRolled()">
+          <roll ng-bind='attack.getToHit()'></roll>
+        </span>
+        <roll v-if='attack.hasDamage()' ng-bind='attack.getDamage()'></roll>
+      </span>
+      <span v-if='attack.info'>(<md md='attack.info' pf='c.pf'></md>)</span>
+      </span>
+    </p>
+    <p v-if='c.rangedAttacks'>
+      Ranged
+      <span class='comma' v-for='attack in c.rangedAttacks'>
+        <span>{{attack.name}}</span>
+        <span v-if="attack.isRolled()">
+          <roll ng-bind='attack.getToHit()'></roll>
+        </span>
+        <roll v-if='attack.hasDamage()' ng-bind='attack.getDamage()'></roll>
+        <span v-if='attack.info'>(<md md='attack.info' pf='c.pf'></md>)</span>
+      </span>
+    </p>
+    <p v-if='c.specialAttacks'>
+      Special
+      <span class='comma' v-for='attack in c.specialAttacks'>
+        <span>{{attack.name}}</span>
+        <span v-if="attack.isRolled()">
+          <roll ng-bind='attack.getToHit()'></roll>
+        </span>
+        <roll v-if='attack.hasDamage()' ng-bind='attack.getDamage()'></roll>
+        <span v-if='attack.info'>(<md md='attack.info' pf='c.pf'></md>)</span>
+      </span>
+    </p>
+    <p>
+      Base Attack Bonus
+      <roll ng-bind='c.bab.getBaseToHit()'></roll>;
+      Combat Maneuver Bonus
+      <roll ng-bind='c.cmb.getToHit()'></roll>
+      <span v-if='c.cmb.special'>({{c.cmb.special}})</span>
+    </p>
+    <div v-if='c.spells' v-for='caster in c.spells'>
+      <p>
+        <span v-if='caster.name[0] != "!"'>{{caster.name}}</span> {{caster.spellType}} {{caster.type}}
+        <span>Caster Level</span>
+        <roll ng-bind='caster.getCasterLevelRoll()'></roll>;
+        <span>Concentration</span>
+        <roll ng-bind='caster.getConcentrationRoll()'></roll>;
+        <span>Spell Resistance </span>
+        <roll ng-bind='caster.getSpellResistanceRoll()'></roll>
+      </p>
+      <div v-if='caster.md' class='spells'>
+        <md md='caster.md' pf='c.pf'></md>
+      </div>
+    </div>
+    <div v-if='c.spellLikeAbilities' v-for='caster in c.spellLikeAbilities'>
+      <p>
+        <span v-if='caster.name[0] != "!"'>{{caster.name}}</span> Spell-Like Abilities
+        <span>Caster Level</span>
+        <roll ng-bind='caster.getCasterLevelRoll()'></roll>;
+        <span>Concentration</span>
+        <roll ng-bind='caster.getConcentrationRoll()'></roll>;
+        <span>Spell Resistance </span>
+        <roll ng-bind='caster.getSpellResistanceRoll()'></roll>
+      </p>
+      <div v-if='caster.md' class='spells'>
+        <md md='caster.md' pf='c.pf'></md>
+      </div>
+    </div>
+    <p>
+      <span v-if='c.speed'>Speed
+        <md md='c.speed' pf='c.pf'></md>
+      </span>
+      <span v-if='c.space'>Space
+        <md md='c.space' pf='c.pf'></md>
+      </span>
+      <span v-if='c.reach'>Reach
+        <md md='c.reach' pf='c.pf'></md>
+      </span>
+    </p>
+    <hr>
+  </section>
+  <section id='stats'>
+    <p>
+      <span class='comma' v-for='score in c.abilityScores()'>
+        {{score.name.slice(0,3)}}
+        <span>{{score.getTotal()}}</span>
+        <roll ng-bind='score.getRoll()'></roll>
+      </span>
+    </p>
+    <p v-if='c.skills.trained'>
+      Trained Skills
+      <span class='comma' v-for='skill in c.skills.trained'>
+        <span>{{skill.name}}</span>
+        <roll ng-bind='skill.getRoll()'></roll>
+      </span>
+    </p>
+    <p v-if='c.skills.untrained'>
+      Untrained Skills
+      <span class='comma' v-for='skill in c.skills.untrained'>
+        <span>{{skill.name}}</span>
+        <roll ng-bind='skill.getRoll()'></roll>
+      </span>
+    </p>
+    <p v-if='c.feats'>
+      Feats
+      <md md='c.feats' fn='fn'></md>
+    </p>
+    <p v-if='c.traits'>
+      Traits
+      <md md='c.traits' fn='fn'></md>
+    </p>
+    <p v-if='c.languages'>
+      Languages
+      <md md='c.languages' fn='fn'></md>
+    </p>
+    <hr>
+  </section>
+  <section id='additional-sections' v-for='section in c.additionalSections'>
+    <md v-for='item in section' md='item' pf='c.pf'></md>
+    <hr>
+  </section>
+</div>

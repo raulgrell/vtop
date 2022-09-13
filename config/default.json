@@ -1,0 +1,45 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "public": "../client/public/",
+  "paginate": {
+    "default": 32,
+    "max": 64
+  },
+  "authentication": {
+    "entity": "user",
+    "service": "users",
+    "secret": "35oHbUkJmB59Kx8uemw1Lj7rLlQ=",
+    "authStrategies": [
+      "jwt",
+      "local",
+      "apiKey"
+    ],
+    "jwtOptions": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "issuer": "feathers",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "usernameField": "email",
+      "passwordField": "password"
+    },
+    "apiKey": {
+      "header": "x-access-token"
+    }
+  },
+  "sqlite": {
+    "client": "sqlite3",
+    "connection": {
+      "filename": "vtop.sqlite"
+    }
+  },
+  "pg": {
+    "client": "pg",
+    "connection": "postgres://raulgrell:rg0@localhost:5432/raulgrell"
+  }
+}
